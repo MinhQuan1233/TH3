@@ -1,0 +1,141 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List; 
+public class Order {
+	
+	int orderid;
+	LocalDate orderdate;
+    int count;
+    List<orderdetail>lineItems;
+    
+    Scanner sc = new Scanner(System.in);
+    public Order(int orderid, LocalDate orderdate,  int count ) {
+    	this.orderid = orderid;
+    	this.orderdate = orderdate;
+    	this.count = count;
+    	this.lineItems = new ArrayList<>();
+    }
+    public int getorderid() {
+    	return this.orderid;
+    }
+    public void setorderid(int orderid) {
+    	this.orderid = orderid;    
+    }
+    public LocalDate getorderdate() {
+    	return this.orderdate;
+    }
+    public void setorderdate(LocalDate orderdate) {
+    	this.orderdate = orderdate;
+    }
+    public int getcount() {
+    	return this.count;
+    }
+    public void setcount(int count) {
+    	this.count = count;
+    }
+    public void addlineItem(product Product, int quatity) {
+    	lineItems.add(new orderdetail(Product, quatity ));
+    }
+    public double calctotalprice() {
+    	double totalprice = 0.0;
+    	for(orderdetail ordt: lineItems) {
+    		totalprice += ordt.getquatity() * ordt.getProduct().getprice();
+    	}
+    	return totalprice;
+    }
+    public double calctotalcharge() {
+    	double totalcharge = calctotalprice();
+    	return totalcharge;
+    }
+    @Override
+    public String toString() {
+    	return orderid + "-" + orderdate + "-" + count;
+    } 
+}
+package bai3;
+
+import java.util.Scanner;
+
+public class orderdetail {
+ int quatity;
+ product Product;
+
+ Scanner sc = new Scanner(System.in);
+ public orderdetail(int quatity,product Product ) {
+	 this.quatity = quatity;
+	 this.Product = Product;
+ }
+ public int getquatity() {
+	 return this.quatity;
+ }
+ public void setquatity(int quatity) {
+	 this.quatity = quatity;
+ }
+ public product getProduct() {
+	 return  this.Product;
+ }
+ public void setProduct( product Product) {
+	 this.Product = Product;
+ }
+ @Override
+ public String toString() {
+	 return "Product: " + Product.getproductid()+ "-" + Product.getDescription()+"quatity:" + quatity;  
+ }
+}
+package bai3;
+
+import java.util.Scanner;
+
+public class product {
+ String Descripton;
+ String productid;
+ double price;
+ 
+ Scanner sc = new Scanner(System.in);
+public product(String Descripton, String productid,  double price) {
+	this.Descripton =Descripton;
+	this.price = price;
+	this.productid = productid;
+}
+public String getDescription() {
+	 return this.Descripton;
+}
+public void setDescripton(String Descripton) {
+	this.Descripton =Descripton;
+}
+public String getproductid() {
+	 return this.productid;
+}
+public void setproductid(String productid) {
+	this.productid =productid;
+}
+public double getprice() {
+	 return this.price;
+}
+public void setprice(double price) {
+	this.price = price;
+}
+@Override
+public String toString() {
+	return"productid:" + productid + "Description:" + Descripton + "Price:" + price; 
+}
+}
+package bai3;
+
+public class main {
+public static void main(String[] args)
+{
+	Order ord = new Order(1, LocalDate.now());
+	
+	product Product1 = new product("Product 1", "P1", 10.0);
+	product Product2 = new product("Product 2", "P2", 10.0);
+    
+	ord.addlineItem(Product1, 3);
+	ord.addlineItem(Product2, 2);
+	ord.addlineItem(Product1, 5);
+	System.out.println(ord);
+	System.out.println("total price: "+ ord.calctotalprice());
+	System.out.println("total charge:" + ord.calctotalcharge());
+}
+}
+
